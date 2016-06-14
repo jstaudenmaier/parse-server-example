@@ -11,11 +11,11 @@ if (!databaseUri) {
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  databaseURI: databaseUri || 'mongodb://medsafe:aqua-vitae@ds021711.mlab.com:21711/medsafe_management',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'myAppId',
+  appId: process.env.APP_ID || 'medsafe-manager',
   masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'http://localhost:1337'  // Don't forget to change to https if needed
+  serverURL: process.env.SERVER_URL || 'https://medsafe-manager.herokuapp.com/',  // Don't forget to change to https if needed
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
 // If you wish you require them, you can set them as options in the initialization above:
@@ -29,7 +29,7 @@ app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  res.status(200).send('I dream of being a web site.');
+  res.status(200).send('I dream of being an opalescent web site.');
 });
 
 var port = process.env.PORT || 1337;
