@@ -4,6 +4,7 @@
 var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var stormpath = require('express-stormpath');
+var jwt = require('jsonwebtoken');
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGOLAB_URI;
 
@@ -14,7 +15,7 @@ if (!databaseUri) {
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://medsafe_lab:elixir-vitae@ds021711.mlab.com:21711/medsafe_management',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || '30nPZe2ThHA0PWQT0O0CA3s29Kil2shkOzw73NHn',
+  appId: process.env.APP_ID || 'medsafe-manager',
   masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
   serverURL: process.env.SERVER_URL || 'https://medsafe-manager.herokuapp.com/',  // Don't forget to change to https if needed
 });
@@ -45,6 +46,16 @@ app.get('/validate', function(req, res) {
     console.error(ex.stack);
     return res.status(401).send('jwt error');
   }
+  
+  var outgoingToken = jwt.sign({"user_id": user_id}, mySharedSecret);
+  var url = redirectUri +
+  '&token=' + encodeURIComponent(outgoingToken) +
+  '&state=' + encodeURIComponent(state);
+  // If you want to test your implementation without the use of the Cloud Client, uncomment the following line.
+  // '&redirect_uri=' + 'https://api.ionic.io/auth/integrations/custom/success';
+
+return res.redirect(url);
+  
 });
 
 app.on('stormpath.ready', function() {
