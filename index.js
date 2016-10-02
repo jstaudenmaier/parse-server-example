@@ -31,9 +31,7 @@ app.use(mountPath, api);
 //Initialize stormpath
 app.use(stormpath.init(app, { website: true }));
 
-app.on('stormpath.ready', function() {
-  app.listen(process.env.PORT || 3000);
-});
+
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
@@ -47,11 +45,13 @@ app.get('/validate', function(req, res) {
     console.error(ex.stack);
     return res.status(401).send('jwt error');
   }
-  
-  
 });
 
-var port = process.env.PORT || 1337;
-app.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+app.on('stormpath.ready', function() {
+  app.listen(process.env.PORT || 3000);
 });
+
+//var port = process.env.PORT || 1337;
+//app.listen(port, function() {
+//    console.log('parse-server-example running on port ' + port + '.');
+//});
