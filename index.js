@@ -5,7 +5,6 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var stormpath = require('express-stormpath');
 var jwt = require('jsonwebtoken');
-var Parse = require('parse/node');
 
 var databaseUri = process.env.DATABASE_URI || process.env.MONGOLAB_URI;
 
@@ -53,29 +52,6 @@ app.get('/validate', function(req, res) {
     console.error(ex.stack);
     return res.status(401).send('jwt error');
   }
-  var passcode = req.query.custom;
-  var user = Parse.Object.extend("Patient");
-  var query = new Parse.Query(user);
-  query.equalTo("id", passcode);
-  query.find({
-  success: function(results) {
-    alert("Successfully retrieved " + results.length + " scores.");
-    // Do something with the returned Parse.Object values
-    var outgoingToken = jwt.sign({"user_id": object.id}, mySharedSecret);
-    var url = redirectUri +
-      '&token=' + encodeURIComponent(outgoingToken) +
-      '&state=' + encodeURIComponent(req.query.state) +
-  // If you want to test your implementation without the use of the Cloud Client, uncomment the following line.
-      '&redirect_uri=' + 'https://api.ionic.io/auth/integrations/custom/success';
-
-    return res.redirect(url);
-  },
-  error: function(error) {
-    console.error(error);
-    return res.status(401).send('Patient code not found.');
-  }
-});
-
 
   var outgoingToken = jwt.sign({"user_id": user_id}, mySharedSecret);
   var url = redirectUri +
