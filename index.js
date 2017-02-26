@@ -16,7 +16,7 @@ var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://medsafe_lab:elixir-vitae@ds021711.mlab.com:21711/medsafe_management',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
   appId: process.env.APP_ID || 'medsafe-manager',
-  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
+  masterKey: process.env.MASTER_KEY || 'smart is sexy', //Add your master key here. Keep it secret!
   serverURL: process.env.SERVER_URL || 'https://medsafe-manager.herokuapp.com/',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Message", "Formula"] // List of classes to support for query subscriptions
@@ -33,7 +33,7 @@ var mountPath = process.env.PARSE_MOUNT || '/parse';
 app.use(mountPath, api);
 
 //Initialize stormpath
-app.use(stormpath.init(app, { website: true }));
+//app.use(stormpath.init(app, { website: true }));
 
 
 
@@ -42,24 +42,24 @@ app.get('/', function(req, res) {
   res.status(200).send('I dream of being an opalescent web site.');
 });
 
-app.get('/validate', function(req, res) {
-  try {
-    var incomingToken = jwt.verify(req.query.token, "smart is sexy");
-  } catch (ex) {
-    console.error(ex.stack);
-    return res.status(401).send('jwt error');
-  }
+//app.get('/validate', function(req, res) {
+//  try {
+//    var incomingToken = jwt.verify(req.query.token, "smart is sexy");
+//  } catch (ex) {
+//    console.error(ex.stack);
+ //   return res.status(401).send('jwt error');
+//  }
   
-  var outgoingToken = jwt.sign({"user_id": user_id}, mySharedSecret);
-  var url = redirectUri +
-  '&token=' + encodeURIComponent(outgoingToken) +
-  '&state=' + encodeURIComponent(state);
+//  var outgoingToken = jwt.sign({"user_id": user_id}, mySharedSecret);
+//  var url = redirectUri +
+//  '&token=' + encodeURIComponent(outgoingToken) +
+//  '&state=' + encodeURIComponent(state);
   // If you want to test your implementation without the use of the Cloud Client, uncomment the following line.
   // '&redirect_uri=' + 'https://api.ionic.io/auth/integrations/custom/success';
 
-return res.redirect(url);
+//return res.redirect(url);
   
-});
+//});
 
 app.on('stormpath.ready', function() {
   app.listen(process.env.PORT || 3000);
