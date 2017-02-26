@@ -14,7 +14,7 @@
     "jsonwebtoken": "^7.1.9",
     "kerberos": "~0.0.x",
     "parse": "~1.6.12",
-    "parse-server": "~2.1.2"
+    "parse-server": "*"
   },
   "scripts": {
     "start": "node index.js"
