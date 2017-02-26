@@ -39,11 +39,6 @@ app.use(mountPath, api);
 //Initialize stormpath
 app.use(stormpath.init(app, { website: true }));
 
-//Initialize LiveQuery server
-let httpServer = require('http').createServer(app);
-httpServer.listen(port);
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer);
-
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
   res.status(200).send('I dream of being an opalescent web site.');
@@ -58,7 +53,7 @@ app.get('/test', function(req, res) {
 var port = process.env.PORT || 1337;
 var httpServer = require('http').createServer(app);
 httpServer.listen(port, function() {
-    console.log('parse-server-example running on port ' + port + '.');
+    console.log('parse-server-opalmayne running on port ' + port + '.');
 });
 
 // This will enable the Live Query real-time server
